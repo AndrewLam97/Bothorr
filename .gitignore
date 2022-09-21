@@ -15,6 +15,11 @@
 __pycache__/
 *.py[cod]
 
+#Discord Environment Token
 .env
 
+#Python venv
 bot-env/*
+
+#Logging File
+discord.log
