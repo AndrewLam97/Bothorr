@@ -1,7 +1,8 @@
 # Bothorr
 Lost Ark Discord Bot
 
-Installation Process>
+Installation Process:
+
 Required Packages: pip install -r requirements.txt
 
 .env: Ask LucidiT#0101 for token 
