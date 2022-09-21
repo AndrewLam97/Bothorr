@@ -6,4 +6,4 @@ Required Packages: pip install -r requirements.txt
 
 .env: Ask LucidiT#0101 for token 
 
-Launch in debug mode with: python3 -O main.py
+Launch without debug mode using optimize flag (-O)
