@@ -1,0 +1,2 @@
+# Bothorr
+LAO Discord Bot
