@@ -1,8 +1,12 @@
 import discord
+import pyodbc
 import logging
 import logging.handlers
-
 import settings
+
+from models.Wins import Win
+from db_connection import Session
+from commands import winCommands
 
 """
 Logging
@@ -49,9 +53,13 @@ async def on_message(message):
         print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
 
     if message.content.startswith('!W'):
-        await message.channel.send('fk matteo')
+        await winCommands.addWin(message)
 
     if message.content == '!matteo':
         await message.channel.send('smh')
+        
+    if message.content == "!myWs":
+        await winCommands.listWins(message)
+    
 
 client.run(settings.DISCORD_TOKEN, log_handler=None)
