@@ -78,6 +78,11 @@ async def on_message(message):
         
     if message.content == "!myLs":
         await loss_commands.list_losses(message)
-    
+
+    if message.content == "!clearWs":
+        await win_commands.clear_wins(message)
+
+    if message.content == "!clearLs":
+        await loss_commands.clear_losses(message)
 
 client.run(settings.DISCORD_TOKEN, log_handler=None)

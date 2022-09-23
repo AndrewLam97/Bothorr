@@ -36,3 +36,9 @@ async def add_loss(message):
         sess.add(newLoss)
         sess.commit()
     await message.channel.send('fk matteo')
+
+async def clear_losses(message):
+    with Session() as sess:
+        sess.query(Loss).filter(Loss.discordId == str(message.author.id)).delete(synchronize_session = False)
+        sess.commit()
+    await message.channel.send(message.author.name + "'s losses cleared!")

@@ -36,3 +36,9 @@ async def add_win(message):
         sess.add(newWin)
         sess.commit()
     await message.channel.send('fk matteo')
+
+async def clear_wins(message):
+    with Session() as sess:
+        sess.query(Win).filter(Win.discordId == str(message.author.id)).delete(synchronize_session = False)
+        sess.commit()
+    await message.channel.send(message.author.name + "'s wins cleared!")
