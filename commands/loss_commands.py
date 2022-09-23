@@ -10,12 +10,15 @@ async def list_losses(message):
     else:
         descriptions = []
         goldLostList = []
+        totalGoldLost = 0
         for loss in losses:
             descriptions.append(loss.description)
             goldLostList.append(str(loss.goldLost))
+            totalGoldLost+=loss.goldLost
         embedVar = discord.Embed(title=f"{message.author.name}'s Losses", color=discord.Color.red())
         embedVar.add_field(name="Description", value="\n".join(descriptions))
         embedVar.add_field(name="Gold Lost", value="\n".join(goldLostList))
+        embedVar.add_field(name="Total Gold Lost", value=str(totalGoldLost), inline=False)
         await message.channel.send(embed=embedVar)
 
 async def add_loss(message):

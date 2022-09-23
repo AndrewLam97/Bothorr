@@ -10,12 +10,15 @@ async def list_wins(message):
     else:
         descriptions = []
         goldSavedList = []
+        totalGoldSaved = 0
         for win in wins:
             descriptions.append(win.description)
             goldSavedList.append(str(win.goldSaved))
+            totalGoldSaved+=win.goldSaved
         embedVar = discord.Embed(title=f"{message.author.name}'s Wins", color=discord.Color.green())
         embedVar.add_field(name="Description", value="\n".join(descriptions))
         embedVar.add_field(name="Gold Saved", value="\n".join(goldSavedList))
+        embedVar.add_field(name="Total Gold Saved", value=str(totalGoldSaved), inline=False)
         await message.channel.send(embed=embedVar)
 
 async def add_win(message):
