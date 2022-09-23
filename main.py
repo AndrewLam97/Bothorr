@@ -1,12 +1,12 @@
 import discord
-import pyodbc
 import logging
 import logging.handlers
 import settings
+import random
 
-from models.Wins import Win
+from models.wins import Win
 from db_connection import Session
-from commands import winCommands
+from commands import win_commands, loss_commands
 
 """
 Logging
@@ -40,6 +40,8 @@ Events
 """
 @client.event
 async def on_ready():
+    with Session() as sess:
+        pass
     print(f'Logged in as {client.user}')
     if  __debug__:
         print(f'DEBUG MODE')
@@ -53,13 +55,29 @@ async def on_message(message):
         print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
 
     if message.content.startswith('!W'):
-        await winCommands.addWin(message)
+        await win_commands.add_win(message)
+    
+    if message.content.startswith("!L"):
+        await loss_commands.add_loss(message)
 
     if message.content == '!matteo':
-        await message.channel.send('smh')
+        phrases = [
+            "smh",
+            "starcraft?",
+            "nah sus",
+            "pain",
+            "I'm gonna pity this aren't I",
+            "I don't know why my character doesn't do damage",
+            "I enjoy breaking Andrew's mental"
+        ]
+        
+        await message.channel.send(random.choice(phrases))
         
     if message.content == "!myWs":
-        await winCommands.listWins(message)
+        await win_commands.list_wins(message)
+        
+    if message.content == "!myLs":
+        await loss_commands.list_losses(message)
     
 
 client.run(settings.DISCORD_TOKEN, log_handler=None)

@@ -1,8 +1,8 @@
-from models.Wins import Win
+from models.wins import Win
 from db_connection import Session
 import discord
 
-async def listWins(message):
+async def list_wins(message):
     with Session() as sess:
         wins = sess.query(Win).filter(Win.discordId == str(message.author.id)).all()
     if len(wins) == 0:
@@ -14,11 +14,11 @@ async def listWins(message):
             descriptions.append(win.description)
             goldSavedList.append(str(win.goldSaved))
         embedVar = discord.Embed(title=f"{message.author.name}'s Wins", color=discord.Color.green())
-        embedVar.add_field(name="Description", value="\n".join(descriptions), inline=False)
-        embedVar.add_field(name="Gold Saved", value="\n".join(goldSavedList), inline=False)
+        embedVar.add_field(name="Description", value="\n".join(descriptions))
+        embedVar.add_field(name="Gold Saved", value="\n".join(goldSavedList))
         await message.channel.send(embed=embedVar)
 
-async def addWin(message):
+async def add_win(message):
     # Split string by spaces
     # Entry[0] is !W command
     # Entry[-1] is gold saved amount
