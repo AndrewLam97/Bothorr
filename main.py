@@ -6,7 +6,7 @@ import random
 
 from models.wins import Win
 from db_connection import Session
-from commands import win_commands, loss_commands
+from commands import win_commands, loss_commands, lookup_commands
 
 """
 Logging
@@ -54,12 +54,20 @@ async def on_message(message):
     if  __debug__:
         print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
 
+    # Message startswith
     if message.content.startswith('!W'):
         await win_commands.add_win(message)
     
     if message.content.startswith("!L"):
         await loss_commands.add_loss(message)
 
+    if message.content.startswith('!lookup'):
+        if message.content == '!lookup help':
+            await lookup_commands.lookup_help(message)
+        else:
+            await lookup_commands.lookup(message)
+
+    # Message matches
     if message.content == '!matteo':
         phrases = [
             "smh",
