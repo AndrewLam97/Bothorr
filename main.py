@@ -1,3 +1,4 @@
+from email.mime import base
 import discord
 import logging
 import logging.handlers
@@ -7,6 +8,8 @@ import random
 from models.wins import Win
 from db_connection import Session
 from commands import win_commands, loss_commands, lookup_commands
+from util.honing.honing_calculator import calculate_honing_win
+from util.command_parser import parse_multiple
 
 """
 Logging
@@ -66,6 +69,19 @@ async def on_message(message):
             await lookup_commands.lookup_help(message)
         else:
             await lookup_commands.lookup(message)
+            
+    if message.content.startswith("!honingW"):
+        parsedMessage = parse_multiple(message)
+        #Todo: Implement pity parsing
+        if (parsedMessage[-1] != "armor" and parsedMessage[-1] != "weapon"):
+            await message.channel.send("Error parsing honing W")
+        try:
+            numberOfTaps = int(parsedMessage[0])
+            targetGearLvl = int(parsedMessage[-2])
+            gearPiece = parsedMessage[-1]
+            await message.channel.send(calculate_honing_win(targetGearLvl, numberOfTaps, gearPiece))
+        except:
+            await message.channel.send("Error parsing number of taps in honing or target gear level after honing")
 
     # Message matches
     if message.content == '!matteo':

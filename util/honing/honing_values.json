@@ -1,0 +1,157 @@
+{
+    "t3": {
+        "armor": {
+            "7": {
+                "ghl": 3,
+                "red": 0,
+                "blue": 162,
+                "fusion": 2,
+                "gold": 68,
+                "baseSuccess": 0.6,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "8": {
+                "ghl": 4,
+                "red": 0,
+                "blue": 162,
+                "fusion": 2,
+                "gold": 68,
+                "baseSuccess": 0.45,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "9": {
+                "ghl": 4,
+                "red": 0,
+                "blue": 162,
+                "fusion": 2,
+                "gold": 68,
+                "baseSuccess": 0.3,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "10": {
+                "ghl": 4,
+                "red": 0,
+                "blue": 199,
+                "fusion": 3,
+                "gold": 68,
+                "baseSuccess": 0.3,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "11": {
+                "ghl": 4,
+                "red": 0,
+                "blue": 199,
+                "fusion": 3,
+                "gold": 68,
+                "baseSuccess": 0.3,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "12": {
+                "ghl": 5,
+                "red": 0,
+                "blue": 199,
+                "fusion": 3,
+                "gold": 68,
+                "baseSuccess": 0.15,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "13": {
+                "ghl": 5,
+                "red": 0,
+                "blue": 237,
+                "fusion": 3,
+                "gold": 68,
+                "baseSuccess": 0.15,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "14": {
+                "ghl": 5,
+                "red": 0,
+                "blue": 237,
+                "fusion": 3,
+                "gold": 68,
+                "baseSuccess": 0.15,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "15": {
+                "ghl": 5,
+                "red": 0,
+                "blue": 237,
+                "fusion": 3,
+                "gold": 72,
+                "baseSuccess": 0.1,
+                "strongHoldBuff": 0.1,
+                "globalBuff": 0.2
+            },
+            "16": {
+                "ghl": 14,
+                "red": 0,
+                "blue": 686,
+                "fusion": 10,
+                "gold": 210,
+                "baseSuccess": 0.1,
+                "strongHoldBuff": 0,
+                "globalBuff": 0
+            },
+            "17": {
+                "ghl": 16,
+                "red": 0,
+                "blue": 686,
+                "fusion": 10,
+                "gold": 250,
+                "baseSuccess": 0.1,
+                "strongHoldBuff": 0,
+                "globalBuff": 0
+            },
+            "18": {
+                "ghl": 16,
+                "red": 0,
+                "blue": 686,
+                "fusion": 12,
+                "gold": 280,
+                "baseSuccess": 0.05,
+                "strongHoldBuff": 0,
+                "globalBuff": 0
+            },
+            "19": {
+                "ghl": 18,
+                "red": 0,
+                "blue": 780,
+                "fusion": 14,
+                "gold": 320,
+                "baseSuccess": 0.05,
+                "strongHoldBuff": 0,
+                "globalBuff": 0
+            },
+            "20": {
+                "ghl": 20,
+                "red": 0,
+                "blue": 780,
+                "fusion": 14,
+                "gold": 350,
+                "baseSuccess": 0.03,
+                "strongHoldBuff": 0,
+                "globalBuff": 0
+            },
+            "21": {
+                "ghl": 22,
+                "red": 0,
+                "blue": 780,
+                "fusion": 14,
+                "gold": 360,
+                "baseSuccess": 0.03,
+                "strongHoldBuff": 0,
+                "globalBuff": 0
+            }
+
+        }
+    }
+}
