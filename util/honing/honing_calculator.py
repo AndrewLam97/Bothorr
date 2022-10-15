@@ -34,7 +34,7 @@ def calculate_honing_win(targetLevel: int, numberOfHones: int, honingPiece: str)
         savedGold = int(expectedGold - actualGold)
         
         ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
-        blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice']
+        blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
         fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
         
         totalSaved = savedGhls*ghlValue + savedBlues*blueValue + savedFusions*fusionValue + savedGold
@@ -42,6 +42,38 @@ def calculate_honing_win(targetLevel: int, numberOfHones: int, honingPiece: str)
             str(savedGhls), str(savedBlues), str(savedFusions), str(savedGold), str(numberOfHones), str(int(totalSaved))
         )
         return msg
+        
+    if honingPiece == "weapon":
+        ghls = data["t3"][honingPiece][str(targetLevel)]["ghl"]
+        reds = data["t3"][honingPiece][str(targetLevel)]["red"]
+        fusions = data["t3"][honingPiece][str(targetLevel)]["fusion"]
+        gold = data["t3"][honingPiece][str(targetLevel)]["gold"]
+        
+        expectedGhls = calculate_expected_value_honing(data["t3"][honingPiece][str(targetLevel)], ghls)
+        expectedReds = calculate_expected_value_honing(data["t3"][honingPiece][str(targetLevel)], reds)
+        expectedFusions = calculate_expected_value_honing(data["t3"][honingPiece][str(targetLevel)], fusions)
+        expectedGold = calculate_expected_value_honing(data["t3"][honingPiece][str(targetLevel)], gold)
+        
+        actualGhls = ghls*numberOfHones
+        actualReds = reds*numberOfHones
+        actualFusions = fusions*numberOfHones
+        actualGold = gold*numberOfHones
+        
+        savedGhls = int(expectedGhls - actualGhls)
+        savedReds = int(expectedReds - actualReds)
+        savedFusions = int(expectedFusions - actualFusions)
+        savedGold = int(expectedGold - actualGold)
+        
+        ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
+        redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
+        fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
+        
+        totalSaved = savedGhls*ghlValue + savedReds*redValue + savedFusions*fusionValue + savedGold
+        msg = "You saved {} GHLs, {} reds, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you saved a grand total of {} gold".format(
+            str(savedGhls), str(savedReds), str(savedFusions), str(savedGold), str(numberOfHones), str(int(totalSaved))
+        )
+        return msg
+
     else:
         pass
 
