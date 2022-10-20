@@ -6,9 +6,10 @@ import settings
 import random
 
 from models.wins import Win
+from models.honing import createTable, uploadData
 from db_connection import Session
 from commands import win_commands, loss_commands, lookup_commands
-from util.honing.honing_calculator import calculate_honing_win
+from util.honing.honing_calculator import calculate_honing, list_all_hones
 from util.command_parser import parse_multiple
 
 """
@@ -47,6 +48,8 @@ async def on_ready():
         pass
     print(f'Logged in as {client.user}')
     if  __debug__:
+        # createTable()
+        # uploadData()
         print(f'DEBUG MODE')
 
 @client.event
@@ -59,10 +62,12 @@ async def on_message(message):
 
     # Message startswith
     if message.content.startswith('!W'):
-        await win_commands.add_win(message)
+        #await win_commands.add_win(message)
+        await message.channel.send("Command deprecated. If it's a honing W, try !honing command")
     
     if message.content.startswith("!L"):
-        await loss_commands.add_loss(message)
+        #await loss_commands.add_loss(message)
+        await message.channel.send("Command deprecated. If it's a honing L, try !honing command")
 
     if message.content.startswith('!lookup'):
         if message.content == '!lookup help':
@@ -70,7 +75,10 @@ async def on_message(message):
         else:
             await lookup_commands.lookup(message)
             
-    if message.content.startswith("!honingW"):
+    if message.content == "!myHones":
+        await list_all_hones(message)
+            
+    if message.content.startswith("!honing"):
         parsedMessage = parse_multiple(message)
         #Todo: Implement pity parsing
         if (parsedMessage[-1] != "armor" and parsedMessage[-1] != "weapon"):
@@ -79,9 +87,9 @@ async def on_message(message):
             numberOfTaps = int(parsedMessage[0])
             targetGearLvl = int(parsedMessage[-2])
             gearPiece = parsedMessage[-1]
-            await message.channel.send(calculate_honing_win(targetGearLvl, numberOfTaps, gearPiece))
-        except:
-            await message.channel.send("Error parsing number of taps in honing or target gear level after honing")
+            await message.channel.send(calculate_honing(message, targetGearLvl, numberOfTaps, gearPiece))
+        except Exception as e:
+            await message.channel.send(e)
 
     # Message matches
     if message.content == '!matteo':
