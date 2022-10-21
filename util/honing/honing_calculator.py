@@ -12,8 +12,8 @@ file_path = os.path.join(absolute_path, "honing_values.json")
 f = open(file_path)
 data = json.load(f)
 
-winString = "You saved {} GHLs, {} blues, {} shards, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you saved a grand total of {} gold"
-lossString = "You lost {} GHLs, {} blues, {} shards, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you lost a grand total of {} gold"
+winString = "You saved {} GHLs, {} {}, {} shards, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you saved a grand total of {} gold"
+lossString = "You lost {} GHLs, {} {}, {} shards, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you lost a grand total of {} gold"
 
 async def list_all_hones(message):
     with Session() as sess:
@@ -68,7 +68,7 @@ def calculate_honing(message, targetLevel: int, numberOfHones: int, honingPiece:
         total = endGhls*ghlValue + endBlues*blueValue + endFusions*fusionValue + endGold
         outputStr = winString if expectedGhls > actualGhls else lossString
         msg = outputStr.format(
-            str(endGhls), str(endBlues), str(endShards), str(endFusions), str(endGold), str(numberOfHones), str(int(total))
+            str(endGhls), str(endBlues), "blues", str(endShards), str(endFusions), str(endGold), str(numberOfHones), str(int(total))
         )
     elif honingPiece == "weapon":
         ghls = data["t3"][honingPiece][str(targetLevel)]["ghl"]
@@ -104,7 +104,7 @@ def calculate_honing(message, targetLevel: int, numberOfHones: int, honingPiece:
         total = endGhls*ghlValue + endReds*redValue + endFusions*fusionValue + endGold
         outputStr = winString if expectedGhls > actualGhls else lossString
         msg = outputStr.format(
-            str(endGhls), str(endReds), str(endShards), str(endFusions), str(endGold), str(numberOfHones), str(int(total))
+            str(endGhls), str(endReds), "reds", str(endShards), str(endFusions), str(endGold), str(numberOfHones), str(int(total))
         )
     else:
         pass
@@ -112,7 +112,7 @@ def calculate_honing(message, targetLevel: int, numberOfHones: int, honingPiece:
     with Session() as sess:
         newHone = Honing(
             discordId=message.author.id,
-            discordUsername=message.author.id,
+            discordUsername=message.author.name,
             tierBaseItemLevel=1340,
             itemType=honingPiece,
             numberOfTaps=numberOfHones,
