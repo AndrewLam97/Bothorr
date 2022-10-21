@@ -9,7 +9,7 @@ from models.wins import Win
 from models.honing import createTable, uploadData
 from db_connection import Session
 from commands import win_commands, loss_commands, lookup_commands
-from util.honing.honing_calculator import calculate_honing, list_all_hones
+from util.honing.honing_calculator import calculate_honing, list_all_hones, calculate_attempts_from_artisans
 from util.command_parser import parse_multiple
 
 """
@@ -44,12 +44,11 @@ Events
 """
 @client.event
 async def on_ready():
-    with Session() as sess:
-        pass
     print(f'Logged in as {client.user}')
     if  __debug__:
         # createTable()
         # uploadData()
+        #print(calculate_attempts_from_artisans(0.05, 0.005, 0.1, 100))
         print(f'DEBUG MODE')
 
 @client.event
@@ -82,14 +81,31 @@ async def on_message(message):
         parsedMessage = parse_multiple(message)
         #Todo: Implement pity parsing
         if (parsedMessage[-1] != "armor" and parsedMessage[-1] != "weapon"):
-            await message.channel.send("Error parsing honing W")
-        try:
-            numberOfTaps = int(parsedMessage[0])
-            targetGearLvl = int(parsedMessage[-2])
-            gearPiece = parsedMessage[-1]
-            await message.channel.send(calculate_honing(message, targetGearLvl, numberOfTaps, gearPiece))
-        except Exception as e:
-            await message.channel.send(e)
+            await message.channel.send("Error parsing type of gear. The last word must be either 'weapon' or 'armor'")
+        if (parsedMessage[1] == "tap"):
+            try:
+                numberOfTaps = int(parsedMessage[0])
+                targetGearLvl = int(parsedMessage[-2])
+                gearPiece = parsedMessage[-1]
+                await message.channel.send(calculate_honing(message, targetGearLvl, numberOfTaps, gearPiece))
+            except Exception as e:
+                await message.channel.send(e)
+        # Example: 80.32 artisans 19 armor
+        elif (parsedMessage[1] == "artisans"):
+            try:
+                targetGearLvl = int(parsedMessage[-2])
+                gearPiece = parsedMessage[-1]
+                numberOfTaps = calculate_attempts_from_artisans(float(parsedMessage[0]), targetGearLvl, gearPiece)
+                await message.channel.send(calculate_honing(message, targetGearLvl, numberOfTaps, gearPiece))
+            except Exception as e:
+                await message.channel.send(e)
+        elif (parsedMessage[0] == "pitied"):
+            try:
+                await message.channel.send("Pity functionality not implemented yet")
+            except Exception as e:
+                await message.channel.send(e)
+        else:
+            pass
 
     # Message matches
     if message.content == '!matteo':

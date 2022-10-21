@@ -5,7 +5,8 @@ from util.lookup import lookup_handler
 from db_connection import Session
 from models.honing import Honing
 from sqlalchemy.sql import func
-
+from sqlalchemy import desc
+import discord
 
 absolute_path = os.path.dirname(__file__)
 file_path = os.path.join(absolute_path, "honing_values.json")
@@ -17,18 +18,29 @@ lossString = "You lost {} GHLs, {} {}, {} shards, {} fusions, and {} raw gold by
 
 async def list_all_hones(message):
     with Session() as sess:
-        honings = sess.query(Honing).filter(Honing.discordId == str(message.author.id)).all()
+        honings = sess.query(Honing).filter(Honing.discordId == str(message.author.id)).order_by(desc(Honing.outputLevel), Honing.numberOfTaps).all()
     blues = 0
     reds = 0
     leaps = 0
     fusions = 0
     rawGold = 0
+    honingDescriptionMap = {}
     for honing in honings:
         blues+=honing.blueStonesUsedFromAvg
         reds+=honing.redStonesUsedFromAvg
         leaps+=honing.leapstonesUsedFromAvg
         fusions+=honing.fusionsUsedFromAvg
         rawGold+=honing.goldUsedFromAvg
+        # Example: 19 tap 20 armor
+        key = "{} tap {} {}".format(str(honing.numberOfTaps), str(honing.outputLevel), str(honing.itemType.value))
+        if key in honingDescriptionMap:
+            honingDescriptionMap[key] = str(int(honingDescriptionMap[key]) + 1)
+        else:
+            honingDescriptionMap[key] = "1"
+    embedVar = discord.Embed(title=f"{message.author.name}'s Hones", color=discord.Color.green())
+    embedVar.add_field(name="Description", value="\n".join(list(honingDescriptionMap.keys())))
+    embedVar.add_field(name="Number of times", value="\n".join(list(honingDescriptionMap.values())))
+    await message.channel.send(embed=embedVar)
     await message.channel.send("Raw Gold Saved: {}, Blue Saved: {}, Red Saved: {}, Leaps Saved: {}, Fusions Saved: {}".format(rawGold, blues, reds, leaps, fusions))
 
 #Calculate honing value wins
@@ -139,6 +151,18 @@ def calculate_max_attempts(totalBaseHoning, honingIncrement, maxHoningProbabilit
             artisanEnergy+=min(totalBaseHoning+honingIncrement*(maxHoningAttempts-1), maxHoningProbability)
             maxHoningAttempts+=1
     return maxHoningAttempts
+
+def calculate_attempts_from_artisans(artisansEnergy, targetLvl, gearType) -> int:
+    totalBaseHoning = data["t3"][gearType][str(targetLvl)]["baseSuccess"] + data["t3"][gearType][str(targetLvl)]["strongHoldBuff"] + data["t3"][gearType][str(targetLvl)]["globalBuff"]
+    honingIncrement = data["t3"][gearType][str(targetLvl)]["baseSuccess"]/10
+    maxHoningProbability = data["t3"][gearType][str(targetLvl)]["baseSuccess"]*2
+    attempts = 1
+    base = 0
+    while (base < artisansEnergy/100):
+        base+=min(totalBaseHoning+honingIncrement*(attempts-1), maxHoningProbability)/2.15
+        attempts+=1
+    return attempts
+
 
 #Calculate the expected number of material used, based on the input material
 def calculate_expected_value_honing(honingValues: dict, materialUsedPerHone: int):
