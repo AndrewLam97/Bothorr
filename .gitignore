@@ -23,3 +23,6 @@ bot-env/*
 
 #Logging File
 discord.log
+
+#Plot File
+plot.png

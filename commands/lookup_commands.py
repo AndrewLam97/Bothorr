@@ -1,5 +1,5 @@
 from util import command_parser, constants
-from util.lookup import lookup_handler
+from util.lookup import lookup_handler, lookup_plotter
 import discord
 
 #Lookup Help
@@ -15,7 +15,9 @@ async def lookup(message):
 
         embed = create_embed_item(data)
 
-        await message.channel.send(embed=embed)
+        file = discord.File("./plot.png", filename="plot.png")
+
+        await message.channel.send(file = file, embed=embed)
     else:
         await message.channel.send("Item not supported. Try \"!lookup help\"")
 
@@ -24,8 +26,13 @@ def create_embed_item(data):
     embed = discord.Embed(
         type = 'rich',
         title = data['name'],
-        description = 'Average Price: ' + str(data['avgPrice']),
+        description = 'Current Average Price: ' + str(data['avgPrice']),
         color = discord.Colour.blue()
-    )   
-    embed.set_image(url = data['image'])
+    )
+    embed.set_thumbnail(url = data['image'])
+
+    lookup_plotter.plot_historic(data['shortHistoric'])
+    embed.set_image(url="attachment://plot.png")
+
     return embed
+
