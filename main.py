@@ -118,8 +118,16 @@ async def on_message(message):
             "I don't know why my character doesn't do damage",
             "I enjoy breaking Andrew's mental"
         ]
-        
         await message.channel.send(random.choice(phrases))
+
+    if message.content == '!kunge':
+        kunge = """1. Mangopoo Aithe Arcdiez Thecoolcannon
+2. Thecoolguy Tinywang FeliciT Arcquattro
+3. ArcZero Stry Thecoolblade Gigawang
+4. PuriT Thecoolhammer Pilfmorn Arcseis
+5. Thecoolmusician LucidiT Dilfporn Arcocho
+6. ArcDos Exa Wangaroo Thecoolgirl"""
+        await message.channel.send(kunge)
         
     if message.content == "!myWs":
         await win_commands.list_wins(message)

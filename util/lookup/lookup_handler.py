@@ -17,7 +17,7 @@ def item_translator(itemStr):
         "blue" : "crystallized-guardian-stone-0",
         "fusion" : "basic-oreha-fusion-material-2",
         "pouch" : "honor-shard-pouch-s-1",
-        "bc" : " ",
+        "bc" : "blue-crystal-0",
     }
     return items[itemStr]
 

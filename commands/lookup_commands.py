@@ -12,11 +12,10 @@ async def lookup(message):
     itemStr = command_parser.parse_singular(message)
     if itemStr in constants.SUPPORTED_ITEMS:
         data = lookup_handler.get_item_data(itemStr).json()[0]
-
         embed = create_embed_item(data)
 
         file = discord.File("./plot.png", filename="plot.png")
-
+        
         await message.channel.send(file = file, embed=embed)
     else:
         await message.channel.send("Item not supported. Try \"!lookup help\"")
@@ -32,6 +31,7 @@ def create_embed_item(data):
     embed.set_thumbnail(url = data['image'])
 
     lookup_plotter.plot_historic(data['shortHistoric'])
+
     embed.set_image(url="attachment://plot.png")
 
     return embed
