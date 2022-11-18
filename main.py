@@ -122,8 +122,8 @@ async def on_message(message):
 
     if message.content == '!kunge':
         kunge = """1. Mangopoo Aithe Arcdiez Thecoolcannon
-2. Thecoolguy Tinywang FeliciT Arcquattro
-3. ArcZero Exa Thecoolblade Gigawang
+2. Thecoolguy Tinywang Exa Arcquattro
+3. ArcZero FeliciT Thecoolblade Gigawang
 4. PuriT Thecoolhammer Pilfmorn Arcseis
 5. Thecoolmusician LucidiT Dilfporn Arcocho
 6. ArcDos Stry Wangaroo Thecoolgirl"""
