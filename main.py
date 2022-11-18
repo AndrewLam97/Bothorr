@@ -123,10 +123,10 @@ async def on_message(message):
     if message.content == '!kunge':
         kunge = """1. Mangopoo Aithe Arcdiez Thecoolcannon
 2. Thecoolguy Tinywang FeliciT Arcquattro
-3. ArcZero Stry Thecoolblade Gigawang
+3. ArcZero Exa Thecoolblade Gigawang
 4. PuriT Thecoolhammer Pilfmorn Arcseis
 5. Thecoolmusician LucidiT Dilfporn Arcocho
-6. ArcDos Exa Wangaroo Thecoolgirl"""
+6. ArcDos Stry Wangaroo Thecoolgirl"""
         await message.channel.send(kunge)
         
     if message.content == "!myWs":
