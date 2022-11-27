@@ -44,11 +44,14 @@ async def list_all_hones(message):
     blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
     
     total = ghlValue*leaps + redValue*reds + fusionValue*fusions + blueValue*blues + rawGold 
+    print(ghlValue, redValue, fusionValue, blueValue)
     embedVar = discord.Embed(title=f"{message.author.name}'s Hones", color=(discord.Color.green() if rawGold > 0 else discord.Color.red()))
-    embedVar.add_field(name="Description", value="\n".join(list(honingDescriptionMap.keys())))
-    embedVar.add_field(name="Number of times", value="\n".join(list(honingDescriptionMap.values())))
+    if (len("\n".join(list(honingDescriptionMap.keys()))) <= 1024):
+        embedVar.add_field(name="Description", value="\n".join(list(honingDescriptionMap.keys())))
+        embedVar.add_field(name="Number of times", value="\n".join(list(honingDescriptionMap.values())))
     embedVar.add_field(name="Summary of mats saved", inline=False, value="Raw Gold Saved: {}, Blue Saved: {}, Red Saved: {}, Leaps Saved: {}, Fusions Saved: {}".format(rawGold, blues, reds, leaps, fusions))
     embedVar.add_field(name="TOTAL GOLD SAVED", inline=False, value=str(int(total)))
+    await message.channel.send("Too many hones, sending a summary for now")
     await message.channel.send(embed=embedVar)
 
 #Calculate honing value wins
