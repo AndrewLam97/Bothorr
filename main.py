@@ -1,16 +1,18 @@
-from email.mime import base
-import discord
 import logging
 import logging.handlers
-import settings
-import random
+from email.mime import base
 
-from models.wins import Win
-from models.honing import createTable, uploadData
+import discord
+
+import settings
+from commands import (honing_commands, lookup_commands, loss_commands,
+                      party_commands, win_commands)
 from db_connection import Session
-from commands import win_commands, loss_commands, lookup_commands
-from util.honing.honing_calculator import calculate_honing, list_all_hones, calculate_attempts_from_artisans
-from util.command_parser import parse_multiple
+from models.honing import createTable, uploadData
+from models.wins import Win
+from util.command_parser import parse_multiple, parse_prune
+from util.honing.honing_calculator import (calculate_attempts_from_artisans,
+                                           calculate_honing, list_all_hones)
 
 """
 Logging
@@ -77,6 +79,9 @@ async def on_message(message):
     if message.content == "!myHones":
         await list_all_hones(message)
             
+    if message.content == "!graphHones":
+        await honing_commands.graph_hones(message)
+
     if message.content.startswith("!honing"):
         parsedMessage = parse_multiple(message)
         #Todo: Implement pity parsing
@@ -109,25 +114,13 @@ async def on_message(message):
 
     # Message matches
     if message.content == '!matteo':
-        phrases = [
-            "smh",
-            "starcraft?",
-            "nah sus",
-            "pain",
-            "I'm gonna pity this aren't I",
-            "I don't know why my character doesn't do damage",
-            "I enjoy breaking Andrew's mental"
-        ]
-        await message.channel.send(random.choice(phrases))
+        await message.channel.send(party_commands.get_phrase(parse_prune(message)))
 
     if message.content == '!kunge':
-        kunge = """1. Mangopoo Aithe Arcdiez Thecoolcannon
-2. Thecoolguy Tinywang FeliciT Arcquattro
-3. ArcZero Exa Thecoolblade Gigawang
-4. PuriT Thecoolhammer Pilfmorn Arcseis
-5. Thecoolmusician LucidiT Dilfporn Arcocho
-6. ArcDos Stry Wangaroo Thecoolgirl"""
-        await message.channel.send(kunge)
+        await message.channel.send(party_commands.get_phrase(parse_prune(message)))
+
+    if message.content == "!clown":
+        await message.channel.send(party_commands.get_phrase(parse_prune(message)))
         
     if message.content == "!myWs":
         await win_commands.list_wins(message)

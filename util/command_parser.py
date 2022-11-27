@@ -1,8 +1,7 @@
 # Split message into list while keeping !command    
 def split_message(message):
     try:
-        splitMessage = message.content.split(' ')
-        return splitMessage
+        return message.content.split(' ')
     except:
         print("Something went wrong during splitting")
 
@@ -18,7 +17,13 @@ def parse_multiple(message):
 # Remove !command from message string and return singular element as a string
 def parse_singular(message):
     try:
-        splitMessage = message.content.split(' ')[1]
-        return splitMessage
+        return message.content.split(' ')[1]
+    except:
+        print("Something went wrong during parsing")
+
+#Remove "!"" from message string and return string
+def parse_prune(message):
+    try:
+        return message.content[1:]
     except:
         print("Something went wrong during parsing")

@@ -1,12 +1,14 @@
 import json
-import os
 import math
-from util.lookup import lookup_handler
+import os
+
+import discord
+from sqlalchemy import desc
+from sqlalchemy.sql import func
+
 from db_connection import Session
 from models.honing import Honing
-from sqlalchemy.sql import func
-from sqlalchemy import desc
-import discord
+from util.lookup import lookup_handler
 
 absolute_path = os.path.dirname(__file__)
 file_path = os.path.join(absolute_path, "honing_values.json")
@@ -19,12 +21,18 @@ lossString = "You lost {} GHLs, {} {}, {} shards, {} fusions, and {} raw gold by
 async def list_all_hones(message):
     with Session() as sess:
         honings = sess.query(Honing).filter(Honing.discordId == str(message.author.id)).order_by(desc(Honing.outputLevel), Honing.numberOfTaps).all()
+
     blues = 0
     reds = 0
     leaps = 0
     fusions = 0
     rawGold = 0
+    blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
+    redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
+    ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
+    fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
     honingDescriptionMap = {}
+
     for honing in honings:
         blues+=honing.blueStonesUsedFromAvg
         reds+=honing.redStonesUsedFromAvg
@@ -37,11 +45,6 @@ async def list_all_hones(message):
             honingDescriptionMap[key] = str(int(honingDescriptionMap[key]) + 1)
         else:
             honingDescriptionMap[key] = "1"
-            
-    ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
-    redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
-    fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
-    blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
     
     total = ghlValue*leaps + redValue*reds + fusionValue*fusions + blueValue*blues + rawGold 
     print(ghlValue, redValue, fusionValue, blueValue)
@@ -53,6 +56,39 @@ async def list_all_hones(message):
     embedVar.add_field(name="TOTAL GOLD SAVED", inline=False, value=str(int(total)))
     await message.channel.send("Too many hones, sending a summary for now")
     await message.channel.send(embed=embedVar)
+
+def calculate_honing_historic(message):
+    with Session() as sess:
+        honings = reversed(sess.query(Honing).filter(Honing.discordId == str(message.author.id)).order_by(desc(Honing.id), Honing.numberOfTaps).all())
+
+    blues = 0
+    reds = 0
+    leaps = 0
+    fusions = 0
+    rawGold = 0
+    blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
+    redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
+    ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
+    fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
+    count = 0
+    total = 0
+    ordered_honings = {}
+
+    for honing in honings:
+        blues+=honing.blueStonesUsedFromAvg
+        reds+=honing.redStonesUsedFromAvg
+        leaps+=honing.leapstonesUsedFromAvg
+        fusions+=honing.fusionsUsedFromAvg
+        rawGold+=honing.goldUsedFromAvg
+    
+        subtotal = ghlValue*honing.leapstonesUsedFromAvg + redValue*honing.redStonesUsedFromAvg + fusionValue*honing.fusionsUsedFromAvg + blueValue*honing.blueStonesUsedFromAvg + honing.goldUsedFromAvg
+        total += subtotal
+        # if __debug__:
+        #     print("ID:", honing.id, "-- Subtotal:", subtotal)
+        ordered_honings[count] = [subtotal, total]
+        count+=1
+
+    return ordered_honings
 
 #Calculate honing value wins
 #TODO: Use this for honing Ls too

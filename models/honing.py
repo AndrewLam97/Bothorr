@@ -1,10 +1,12 @@
-from sqlalchemy import Column, Integer, String, MetaData, Table, Enum, false
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
-import enum
-import settings
-import urllib
 import csv
+import enum
+import urllib
+
+from sqlalchemy import (Column, Enum, Integer, MetaData, String, Table,
+                        create_engine, false)
+from sqlalchemy.orm import declarative_base
+
+import settings
 from db_connection import Session
 
 Base = declarative_base()

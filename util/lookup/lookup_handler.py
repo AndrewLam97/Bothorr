@@ -1,5 +1,7 @@
 import requests
+
 from util import constants
+
 
 # Singular Item Lookup
 def get_item_data(itemStr):

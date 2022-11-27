@@ -25,4 +25,5 @@ bot-env/*
 discord.log
 
 #Plot File
-plot.png
+plot_lookup_historic.png
+plot_honing_historic.png
