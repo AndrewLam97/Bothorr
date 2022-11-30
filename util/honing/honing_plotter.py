@@ -49,5 +49,5 @@ def plot_honing_historic(ordered_honings):
 
     if not os.path.exists("images"):
         os.mkdir("images")
-
+    fig.write_html("/var/www/html/index.html")
     fig.write_image("images/plot_honing_historic.png")
