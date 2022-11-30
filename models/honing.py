@@ -4,6 +4,8 @@ import urllib
 
 from sqlalchemy import (Column, Enum, Integer, MetaData, String, Table,
                         create_engine, false)
+
+from util.constants import ID_MAPPING as idMapping
 from sqlalchemy.orm import declarative_base
 
 import settings
@@ -77,13 +79,6 @@ def createTable():
     meta.create_all(engine)
     
 def uploadData():
-    idMapping = {
-        179710669761937408: "ZerO_0",
-        100391590270357504: "Wangaroo",
-        431999222628352000: "Ikpn",
-        332419378861834240: "coolguy1002??",
-        89487931223322624: "LucidiT"
-    }
     with Session() as sess:
         with open('dataEntry.csv', 'r') as csv_file:
             reader = csv.reader(csv_file)

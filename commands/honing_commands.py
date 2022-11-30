@@ -12,6 +12,7 @@ async def graph_hones(message):
     color = discord.Colour.green()
     embed = create_embed(title, description, color)
     embed.set_image(url="attachment://plot_honing_historic.png")
+    embed.add_field(name="Link to Website", value="http://20.55.0.43")
     file = discord.File("./images/plot_honing_historic.png", filename="plot_honing_historic.png")
     await message.channel.send(file = file, embed=embed)
 
