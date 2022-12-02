@@ -3,16 +3,16 @@ import random
 
 def get_phrase(s):
     clown = """1.
-Andrew Bard
-Terry SS
-Kent Zerk
-Eric Sorc
+Terry Bard
+Toobles/Brian
+Kent Scouter
+Eric SS
 
 2.
 Matteo Bard
 Andrew DB
-Mike GS
-Toobles WD
+Mike Scouter
+Eric Sorc
 
 3.
 Mike Bard
@@ -21,7 +21,7 @@ Andrew GS
 Matteo Arty
 
 4.
-Terry Bard
+Andrew Bard
 Eric Zerk
 Mike Arty
 Matteo Sorc
@@ -29,20 +29,20 @@ Matteo Sorc
 5.
 Eric Pally
 Matteo Destro
-Mike Scouter
+Mike GS
 Andrew Arty
 
 6.
 Matteo Pally
 Andrew LM
-Eric SS
-Mike Sorc
+Terry Sorc
+Mike SS
 
 7.
 Pug Support
 Eric Destro
-Mike SS
-Terry Sorc"""
+Mike Sorc
+Terry SS"""
 
     kunge = """1. Mangopoo Aithe Arcdiez Thecoolcannon
 2. Thecoolguy Tinywang FeliciT Arcquattro
