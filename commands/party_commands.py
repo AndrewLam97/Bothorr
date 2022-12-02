@@ -4,7 +4,7 @@ import random
 def get_phrase(s):
     clown = """1.
 Terry Bard
-Toobles/Brian
+Andrew LM
 Kent Scouter
 Eric SS
 
@@ -34,8 +34,8 @@ Andrew Arty
 
 6.
 Matteo Pally
-Andrew LM
-Terry Sorc
+Toobles/Brian
+Andrew Sorc
 Mike SS
 
 7.
