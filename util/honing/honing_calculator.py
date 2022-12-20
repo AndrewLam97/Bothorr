@@ -27,10 +27,10 @@ async def list_all_hones(message):
     leaps = 0
     fusions = 0
     rawGold = 0
-    blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
-    redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
+    blueValue = lookup_handler.get_item_data("guardian").json()[0]['avgPrice'] / 10
+    redValue = lookup_handler.get_item_data("destruction").json()[0]['avgPrice'] / 10
     ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
-    fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
+    fusionValue = lookup_handler.get_item_data("basic").json()[0]['avgPrice']
     honingDescriptionMap = {}
 
     for honing in honings:
@@ -66,10 +66,10 @@ def calculate_honing_historic(message):
     leaps = 0
     fusions = 0
     rawGold = 0
-    blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
-    redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
+    blueValue = lookup_handler.get_item_data("guardian").json()[0]['avgPrice'] / 10
+    redValue = lookup_handler.get_item_data("destruction").json()[0]['avgPrice'] / 10
     ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
-    fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
+    fusionValue = lookup_handler.get_item_data("basic").json()[0]['avgPrice']
     count = 0
     total = 0
     ordered_honings = {}
@@ -121,8 +121,8 @@ def calculate_honing(message, targetLevel: int, numberOfHones: int, honingPiece:
         endReds = 0
         
         ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
-        blueValue = lookup_handler.get_item_data("blue").json()[0]['avgPrice'] / 10
-        fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
+        blueValue = lookup_handler.get_item_data("guardian").json()[0]['avgPrice'] / 10
+        fusionValue = lookup_handler.get_item_data("basic").json()[0]['avgPrice']
         
         total = endGhls*ghlValue + endBlues*blueValue + endFusions*fusionValue + endGold
         outputStr = winString if expectedGhls > actualGhls else lossString
@@ -157,8 +157,8 @@ def calculate_honing(message, targetLevel: int, numberOfHones: int, honingPiece:
         endBlues = 0
         
         ghlValue = lookup_handler.get_item_data("ghl").json()[0]['avgPrice']
-        redValue = lookup_handler.get_item_data("red").json()[0]['avgPrice'] / 10
-        fusionValue = lookup_handler.get_item_data("fusion").json()[0]['avgPrice']
+        redValue = lookup_handler.get_item_data("destruction").json()[0]['avgPrice'] / 10
+        fusionValue = lookup_handler.get_item_data("basic").json()[0]['avgPrice']
         
         total = endGhls*ghlValue + endReds*redValue + endFusions*fusionValue + endGold
         outputStr = winString if expectedGhls > actualGhls else lossString
