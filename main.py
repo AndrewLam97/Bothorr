@@ -7,12 +7,8 @@ import discord
 import settings
 from commands import (honing_commands, lookup_commands, loss_commands,
                       party_commands, win_commands)
-from db_connection import Session
-from models.honing import createTable, uploadData
-from models.wins import Win
 from util.command_parser import parse_multiple, parse_prune
-from util.honing.honing_calculator import (calculate_attempts_from_artisans,
-                                           calculate_honing, list_all_hones)
+from util.honing.honing_calculator import (list_all_hones, HoningCalculator)
 
 """
 Logging
@@ -55,6 +51,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    honingCalculator = HoningCalculator()
     if message.author == client.user:
         return
 
@@ -87,21 +84,24 @@ async def on_message(message):
         #Todo: Implement pity parsing
         if (parsedMessage[-1] != "armor" and parsedMessage[-1] != "weapon"):
             await message.channel.send("Error parsing type of gear. The last word must be either 'weapon' or 'armor'")
+        # Example: 20 tap 19 brel weapon
         if (parsedMessage[1] == "tap"):
             try:
-                numberOfTaps = int(parsedMessage[0])
-                targetGearLvl = int(parsedMessage[-2])
-                gearPiece = parsedMessage[-1]
-                await message.channel.send(calculate_honing(message, targetGearLvl, numberOfTaps, gearPiece))
+                numberOfTaps = int(parsedMessage[0]) # 20
+                targetGearLvl = int(parsedMessage[-3]) # 19
+                targetGearHoningTier = parsedMessage[-2] # brel
+                gearPiece = parsedMessage[-1] # weapon
+                await message.channel.send(honingCalculator.saveAndOutputCalculatedValues(targetGearLvl, numberOfTaps, targetGearHoningTier, message, gearPiece))
             except Exception as e:
                 await message.channel.send(e)
-        # Example: 80.32 artisans 19 armor
+        # Example: 80.32 artisans 19 brel armor
         elif (parsedMessage[1] == "artisans"):
             try:
-                targetGearLvl = int(parsedMessage[-2])
-                gearPiece = parsedMessage[-1]
-                numberOfTaps = calculate_attempts_from_artisans(float(parsedMessage[0]), targetGearLvl, gearPiece)
-                await message.channel.send(calculate_honing(message, targetGearLvl, numberOfTaps, gearPiece))
+                targetGearLvl = int(parsedMessage[-3]) # 19
+                gearPiece = parsedMessage[-1] # armor
+                targetGearHoningTier = parsedMessage[-2] # brel
+                numberOfTaps = honingCalculator.calculate_attempts_from_artisans(float(parsedMessage[0]), targetGearLvl, gearPiece, targetGearHoningTier)
+                await message.channel.send(honingCalculator.saveAndOutputCalculatedValues(targetGearLvl, numberOfTaps, targetGearHoningTier, message, gearPiece))
             except Exception as e:
                 await message.channel.send(e)
         elif (parsedMessage[0] == "pitied"):
