@@ -77,12 +77,12 @@ class HoningCalculator:
                 itemType=honingPiece,
                 numberOfTaps=numberOfHones,
                 outputLevel=targetLevel,
-                goldUsedFromAvg=material_deviation_values["gold"] if outputStr == WIN_STRING else -material_deviation_values["gold"],
-                shardsUsedFromAvg=material_deviation_values["shards"] if outputStr == WIN_STRING else -material_deviation_values["shards"],
-                leapstonesUsedFromAvg=material_deviation_values["leaps"] if outputStr == WIN_STRING else -material_deviation_values["leaps"],
-                blueStonesUsedFromAvg=material_deviation_values["blues"] if outputStr == WIN_STRING else -material_deviation_values["blues"],
-                redStonesUsedFromAvg=material_deviation_values["reds"] if outputStr == WIN_STRING else -material_deviation_values["reds"],
-                fusionsUsedFromAvg=material_deviation_values["fusions"] if outputStr == WIN_STRING else -material_deviation_values["fusions"],
+                goldUsedFromAvg=material_deviation_values["gold"],
+                shardsUsedFromAvg=material_deviation_values["shards"],
+                leapstonesUsedFromAvg=material_deviation_values["leaps"],
+                blueStonesUsedFromAvg=material_deviation_values["blues"],
+                redStonesUsedFromAvg=material_deviation_values["reds"],
+                fusionsUsedFromAvg=material_deviation_values["fusions"],
             )
             print(newHone)
             sess.add(newHone)
