@@ -5,7 +5,8 @@ from util.honing import honing_calculator, honing_plotter
 
 
 async def graph_hones(message):
-    honing_plotter.plot_honing_historic(honing_calculator.calculate_honing_historic(message))
+    honingCalculator = honing_calculator.HoningCalculator()
+    honing_plotter.plot_honing_historic(honingCalculator.calculate_honing_historic(message))
 
     title = f"{message.author.name}'s Hones"
     description = 'Historical Cumulative Honing Deviation from Mean'
