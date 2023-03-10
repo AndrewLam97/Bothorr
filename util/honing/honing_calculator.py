@@ -100,8 +100,8 @@ class HoningCalculator:
         
     def calculate_honing_historic(self, message):
         with Session() as sess:
-            argos_honings = reversed(sess.query(Honing).filter(Honing.discordId == str(message.author.id) and Honing.tierBaseItemLevel == 1340).order_by(desc(Honing.id), Honing.numberOfTaps).all())
-            brel_honings = reversed(sess.query(Honing).filter(Honing.discordId == str(message.author.id) and Honing.tierBaseItemLevel == 1390).order_by(desc(Honing.id), Honing.numberOfTaps).all())
+            argos_honings = reversed(sess.query(Honing).filter(Honing.discordId == str(message.author.id)).filter(Honing.tierBaseItemLevel == 1340).order_by(desc(Honing.id), Honing.numberOfTaps).all())
+            brel_honings = reversed(sess.query(Honing).filter(Honing.discordId == str(message.author.id)).filter(Honing.tierBaseItemLevel == 1390).order_by(desc(Honing.id), Honing.numberOfTaps).all())
 
         argosBlueValue = lookup_handler.get_item_data("blue", "argos").json()[0]['avgPrice'] / 10
         argosRedValue = lookup_handler.get_item_data("red", "argos").json()[0]['avgPrice'] / 10
