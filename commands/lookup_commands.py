@@ -14,7 +14,7 @@ async def lookup(message):
     # Generate item data dict from JSON
     itemStr = command_parser.parse_singular(message)
     if itemStr in constants.SUPPORTED_ITEMS:
-        data = lookup_handler.get_item_data(itemStr).json()[0]
+        data = lookup_handler.get_item_lookup(itemStr).json()[0]
         lookup_plotter.plot_historic(data['shortHistoric'])
 
         embed = create_embed(data['name'], 'Current Average Price: ' + str(data['avgPrice']), discord.Colour.blue())
