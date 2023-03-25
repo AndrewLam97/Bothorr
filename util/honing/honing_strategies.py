@@ -295,6 +295,8 @@ class BrelArmorHoningStrategy(HoningStrategy):
         self.data = json.load(f)["t3"]["1390"]["armor"]
         self.lookup_handler = lookup_handler
         self.gear_tier = GEAR_TIER.brel
+        self.WIN_STRING = "You saved {} mhls, {} protection stones, {} shards, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you saved a total of {} gold"
+        self.LOSS_STRING = "You lost {} mhls, {} protection stones, {} shards, {} fusions, and {} raw gold by {} tapping compared to the average scenario. With current market values, you lost a total of {} gold"
     
     def calculate_honing_materials_used(self, targetLevel: str, numberOfHones: int) -> dict:
         leaps = self.data[targetLevel]["leapstone"]
