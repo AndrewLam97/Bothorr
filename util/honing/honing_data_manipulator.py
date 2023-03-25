@@ -61,21 +61,33 @@ class HoningDataManipulator:
         count = 0
         total = 0
         ordered_honings = {}
-        honing_tier_ilvl_to_str_map = {
-            1390: GEAR_TIER.brel,
-            1340: GEAR_TIER.argos
-        }
+
+        argosBlueValue = self.lookup_handler.get_item_data("blue", "argos").json()[0]['avgPrice'] / 10
+        argosRedValue = self.lookup_handler.get_item_data("red", "argos").json()[0]['avgPrice'] / 10
+        ghlValue = self.lookup_handler.get_item_data("leapstone", "argos").json()[0]['avgPrice']
+        argosFusionValue = self.lookup_handler.get_item_data("fusion", "argos").json()[0]['avgPrice']
+        brelBlueValue = self.lookup_handler.get_item_data("blue", "brel").json()[0]['avgPrice'] / 10
+        brelRedValue = self.lookup_handler.get_item_data("red", "brel").json()[0]['avgPrice'] / 10
+        mhlValue = self.lookup_handler.get_item_data("leapstone", "brel").json()[0]['avgPrice']
+        brelFusionValue = self.lookup_handler.get_item_data("fusion", "brel").json()[0]['avgPrice']
         
         for honing in honings:
-            self.set_honing_strategy(honing_tier_ilvl_to_str_map(honing.tierBaseItemLevel), honing.itemType.value)
-            material_deviation_from_mean = {
-                "leaps": honing.leapstonesUsedFromAvg,
-                "blues": honing.blueStonesUsedFromAvg,
-                "reds": honing.redStonesUsedFromAvg,
-                "fusions": honing.fusionsUsedFromAvg,
-                "gold": honing.goldUsedFromAvg,
-            }
-            subtotal = self.honing_strategy.calculate_gold_value_of_materials_used(material_deviation_from_mean)
+            if honing.tierBaseItemLevel == 1340:
+                subtotal = int(honing.leapstonesUsedFromAvg * ghlValue 
+                               + honing.blueStonesUsedFromAvg * argosBlueValue
+                               + honing.redStonesUsedFromAvg * argosRedValue
+                               + honing.fusionsUsedFromAvg * argosFusionValue
+                               + honing.goldUsedFromAvg
+                               )
+            elif honing.tierBaseItemLevel == 1390:
+                subtotal = int(honing.leapstonesUsedFromAvg * mhlValue 
+                               + honing.blueStonesUsedFromAvg * brelBlueValue
+                               + honing.redStonesUsedFromAvg * brelRedValue
+                               + honing.fusionsUsedFromAvg * brelFusionValue
+                               + honing.goldUsedFromAvg
+                               )
+            else:
+                raise Exception("Invalid tier of gear with base ilvl {}".format(honing.tierBaseItemLevel))
             total+=subtotal
             ordered_honings[count] = [subtotal, total]
             count+=1

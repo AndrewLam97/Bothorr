@@ -85,7 +85,7 @@ async def on_message(message):
         await list_all_hones(message)
             
     if message.content == "!graphHones":
-        await honing_commands.graph_hones(message)
+        await honing_commands.graph_hones(message, honingDataManipulator)
         
     if message.content == "!deleteLastHone":
         targetLevel, numTaps, gearType = honingDataManipulator.delete_last_hone(message.author.id)
