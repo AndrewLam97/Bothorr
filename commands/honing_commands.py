@@ -1,12 +1,12 @@
 import discord
 
 from util.embeds import create_embed
-from util.honing import honing_calculator, honing_plotter
+from util.honing import honing_plotter
+from util.honing.honing_data_manipulator import HoningDataManipulator
 
 
-async def graph_hones(message):
-    honingCalculator = honing_calculator.HoningCalculator()
-    honing_plotter.plot_honing_historic(honingCalculator.calculate_honing_historic(message))
+async def graph_hones(message, honingDataManipulator: HoningDataManipulator):
+    honing_plotter.plot_honing_historic(honingDataManipulator.calculate_honing_historic(message))
 
     title = f"{message.author.name}'s Hones"
     description = 'Historical Cumulative Honing Deviation from Mean'

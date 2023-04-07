@@ -8,7 +8,10 @@ import settings
 from commands import (honing_commands, lookup_commands, loss_commands,
                       party_commands, win_commands)
 from util.command_parser import parse_multiple, parse_prune
+from util.constants import GEAR_TIER, GEAR_TYPE
 from util.honing.honing_calculator import (list_all_hones, HoningCalculator)
+from util.honing.honing_strategies import *
+from util.honing.honing_data_manipulator import *
 
 """
 Logging
@@ -35,7 +38,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
-
+honingDataManipulator = HoningDataManipulator()
 
 """
 Events
@@ -43,6 +46,11 @@ Events
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
+    
+    #test.set_honing_strategy(GEAR_TIER["brel"], GEAR_TYPE["weapon"])
+    
+    #print(test.honing_strategy.calculate_gold_value_of_materials_used("13", 9))
+    #test.delete_last_hone(179710669761937408)
     if  __debug__:
         # createTable()
         # uploadData()
@@ -51,7 +59,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    honingCalculator = HoningCalculator()
+    
     if message.author == client.user:
         return
 
@@ -77,31 +85,38 @@ async def on_message(message):
         await list_all_hones(message)
             
     if message.content == "!graphHones":
-        await honing_commands.graph_hones(message)
+        await honing_commands.graph_hones(message, honingDataManipulator)
+        
+    if message.content == "!deleteLastHone":
+        targetLevel, numTaps, gearType = honingDataManipulator.delete_last_hone(message.author.id)
+        await message.channel.send("Deleted your last hone where you {} tapped {} {}".format(numTaps, targetLevel, gearType.name))
 
     if message.content.startswith("!honing"):
         parsedMessage = parse_multiple(message)
         #Todo: Implement pity parsing
         if (parsedMessage[-1] != "armor" and parsedMessage[-1] != "weapon"):
             await message.channel.send("Error parsing type of gear. The last word must be either 'weapon' or 'armor'")
+        if (parsedMessage[-2] != "brel" and parsedMessage[-2] != "argos"):
+            await message.channel.send("Error parsing tier of gear. The second last word must be either 'brel' or 'argos'")
+        targetGearHoningTier = parsedMessage[-2] # brel/argos
+        gearPiece = parsedMessage[-1] # weapon/armor
+        targetGearLvl = parsedMessage[-3] # 19
+        #honingDataManipulator.set_honing_strategy(GEAR_TIER[targetGearHoningTier], GEAR_TYPE[gearPiece])
         # Example: 20 tap 19 brel weapon
         if (parsedMessage[1] == "tap"):
             try:
                 numberOfTaps = int(parsedMessage[0]) # 20
-                targetGearLvl = int(parsedMessage[-3]) # 19
-                targetGearHoningTier = parsedMessage[-2] # brel
-                gearPiece = parsedMessage[-1] # weapon
-                await message.channel.send(honingCalculator.saveAndOutputCalculatedValues(targetGearLvl, numberOfTaps, targetGearHoningTier, message, gearPiece))
+                data = honingDataManipulator.commit_honing_to_db(message, targetGearLvl, numberOfTaps, GEAR_TIER[targetGearHoningTier], GEAR_TYPE[gearPiece])
+                await message.channel.send(honingDataManipulator.honing_strategy.compose_honing_message(data, numberOfTaps))
             except Exception as e:
                 await message.channel.send(e)
         # Example: 80.32 artisans 19 brel armor
         elif (parsedMessage[1] == "artisans"):
             try:
-                targetGearLvl = int(parsedMessage[-3]) # 19
-                gearPiece = parsedMessage[-1] # armor
-                targetGearHoningTier = parsedMessage[-2] # brel
-                numberOfTaps = honingCalculator.calculate_attempts_from_artisans(float(parsedMessage[0]), targetGearLvl, gearPiece, targetGearHoningTier)
-                await message.channel.send(honingCalculator.saveAndOutputCalculatedValues(targetGearLvl, numberOfTaps, targetGearHoningTier, message, gearPiece))
+                honingDataManipulator.set_honing_strategy(GEAR_TIER[targetGearHoningTier], GEAR_TYPE[gearPiece])
+                numberOfTaps = honingDataManipulator.honing_strategy.convert_artisans_to_num_taps(targetGearLvl, float(parsedMessage[0]))
+                data = honingDataManipulator.commit_honing_to_db(message, targetGearLvl, numberOfTaps, GEAR_TIER[targetGearHoningTier], GEAR_TYPE[gearPiece])
+                await message.channel.send(honingDataManipulator.honing_strategy.compose_honing_message(data, numberOfTaps))
             except Exception as e:
                 await message.channel.send(e)
         elif (parsedMessage[0] == "pitied"):

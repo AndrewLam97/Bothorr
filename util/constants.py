@@ -1,4 +1,5 @@
 from typing import Final
+from enum import Enum
 
 # NAW URL
 NAW_URL: Final = "https://www.lostarkmarket.online/api/export-market-live/North America West"
@@ -12,3 +13,11 @@ ID_MAPPING = {
     332419378861834240: "coolguy1002??",
     89487931223322624: "LucidiT"
 }
+
+class GEAR_TIER(Enum):
+    argos = "argos"
+    brel = "brel"
+
+class GEAR_TYPE(Enum):
+    weapon = "weapon"
+    armor = "armor"

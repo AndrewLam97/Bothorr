@@ -161,6 +161,7 @@ class HoningCalculator:
                 currentSuccessProbability = min(totalBaseHoning+(honingIncrement*i), maxHoningProbability)
                 test=failedHoningSoFar*currentSuccessProbability*materialUsedPerHone*(i+1)
                 expectedValue+=test
+        print(expectedValue, expectedValue/materialUsedPerHone)
         return math.ceil(expectedValue)
     
     def calculate_attempts_from_artisans(self, artisansEnergy, targetLvl, gearType, honingTier) -> int:
