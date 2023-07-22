@@ -26,7 +26,7 @@ def item_translator(itemStr, honingTier):
             "leapstone" : "marvelous-honor-leapstone-3",
             "red" : "obliteration-stone-1",
             "blue" : "protection-stone-1",
-            "fusion" : "superior-oreha-fusion-material-4",
+            "fusion" : "superior-oreha-fusion-material-3",
             "pouch" : "honor-shard-pouch-s-1",
         }
     return items[itemStr]
@@ -40,7 +40,7 @@ def get_item_lookup(itemStr):
         "obliteration" : "obliteration-stone-1",
         "protection" : "protection-stone-1",
         "basic" : "basic-oreha-fusion-material-2",
-        "superior" : "superior-oreha-fusion-material-4",
+        "superior" : "superior-oreha-fusion-material-3",
         "pouch" : "honor-shard-pouch-s-1",
         "bc" : "blue-crystal-0",
     }
