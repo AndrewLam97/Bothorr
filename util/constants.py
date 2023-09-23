@@ -4,7 +4,7 @@ from enum import Enum
 # NAW URL
 NAW_URL: Final = "https://www.lostarkmarket.online/api/export-market-live/North America West"
 
-SUPPORTED_ITEMS = ["ghl", "mhl", "destruction", "guardian", "obliteration", "protection", "basic", "superior", "pouch", "bc"]
+SUPPORTED_ITEMS = ["ghl", "mhl", "rhl", "destruction", "guardian", "obl", "prot", "refObl", "refProt","basic", "superior", "prime", "pouch", "bc"]
 
 ID_MAPPING = {
     179710669761937408: "ZerO_0",
