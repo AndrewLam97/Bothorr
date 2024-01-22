@@ -18,7 +18,7 @@ def item_translator(itemStr, honingTier):
             "leapstone" : "great-honor-leapstone-2",
             "red" : "crystallized-destruction-stone-0",
             "blue" : "crystallized-guardian-stone-0",
-            "fusion" : "basic-oreha-fusion-material-2",
+            "fusion" : "oreha-fusion-material-2",
             "pouch" : "honor-shard-pouch-s-1",
         }
     elif (honingTier == "brel"):
