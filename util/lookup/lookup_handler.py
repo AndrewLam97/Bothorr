@@ -42,7 +42,7 @@ def get_item_lookup(itemStr):
         "prot" : "protection-stone-1",
         "refObl" : "refined-obliteration-stone-0",
         "refProt" : "refined-protection-stone-0",
-        "basic" : "basic-oreha-fusion-material-2",
+        "basic" : "oreha-fusion-material-2",
         "superior" : "superior-oreha-fusion-material-3",
         "prime" : "prime-oreha-fusion-material-4",
         "pouch" : "honor-shard-pouch-s-1",
